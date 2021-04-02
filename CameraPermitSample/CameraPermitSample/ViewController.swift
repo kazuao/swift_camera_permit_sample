@@ -33,12 +33,34 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         styleCaptureButton()
+        checkCameraPermit()
         
         setupCaptureSession()
         setupDevice()
         setupInputOutput()
         setupPreviewLayer()
         captureSession.startRunning()
+    }
+    
+    func checkCameraPermit() {
+        let status = AVCaptureDevice.authorizationStatus(for: .video)
+        
+        // アクセス許可あり
+        if status == AVAuthorizationStatus.authorized {
+            print("authorized")
+            
+        // ユーザが拒否
+        } else if status == AVAuthorizationStatus.restricted {
+            print("restricted")
+            
+        // まだ聞いていない
+        } else if status == AVAuthorizationStatus.notDetermined {
+            print("not determined")
+            
+        // 許可されてない
+        } else if status == AVAuthorizationStatus.denied {
+            print("denied")
+        }
     }
     
     func styleCaptureButton() {
